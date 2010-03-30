@@ -46,6 +46,7 @@ def main():
 	points = 0
 	p = Player()
 	ticker = pygame.time.Clock()
+	menu = True
 	
 	while True:
 		ticker.tick(40)
@@ -53,6 +54,21 @@ def main():
 		event = pygame.event.poll() #check user input
 		if event.type == pygame.QUIT:
 			return False #end a game when clicking on x
-		mouse, garbage = pygame.mouse.get_pos()
-		p.update(mouse)
+
+		if menu:
+		    drawtext("Do you want to enter the game?", 100, 100, 30, (255, 255, 255))
+		    drawtext("Press ENTER or ESCAPE", 100, 200, 40, (255, 255, 255))
+		    if event.type == pygame.KEYDOWN:
+		        if event.key == pygame.K_RETURN:
+		            menu = False
+		        elif event.key == pygame.K_ESCAPE:
+		            return False
+
+		elif not menu and event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+		    menu = True
+
+		else:
+		    mouse, garbage = pygame.mouse.get_pos()
+		    p.update(mouse)
+
 		pygame.display.flip()
