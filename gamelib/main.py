@@ -34,7 +34,12 @@ class Player:
 		if (self.basket_x - self.cart_x) < 50 & (self.basket_x - self.cart_x) > 0:
 			#minor bugfix, you could move the basket 50px right without moving the cart, so now it's possible both ways
 			self.cart_x += 1
-		self.basket_y = 375 + (math.fabs(self.basket_x - self.cart_x) / 1.5)
+		#next 4 lines prevent the basket from moving too far from the cart
+		if (self.basket_x - self.cart_x) > 100:
+			self.basket_x = self.cart_x + 100
+		if (self.basket_x - self.cart_x) < -100:
+			self.basket_x = self.cart_x - 100
+		self.basket_y = 425 + (math.fabs(self.basket_x - self.cart_x) / 1.5)
 		pygame.draw.line(screen, (0,0,0), ((self.basket_x + 25), (self.basket_y + 25)), ((self.cart_x + 25), (self.cart_y + 5)), 12)
 		screen.blit(self.cart_image, (self.cart_x, self.cart_y))
 		screen.blit(self.basket_image, (self.basket_x, self.basket_y))
