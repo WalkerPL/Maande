@@ -44,12 +44,29 @@ class Player:
 		screen.blit(self.cart_image, (self.cart_x, self.cart_y))
 		screen.blit(self.basket_image, (self.basket_x, self.basket_y))
 
+class Item:
+
+    def __init__(self):
+        items_list = ({"name": "obj0", "points": 10, "speed": 2}, {"name": "obj1", "points": 10, "speed": 2})
+
+        item = random.choice(items_list)        
+        self.x = random.randint(20, 780)
+        self.y = random.randint(0, 3)
+        self.image = pygame.image.load("./data/items/%s.png" % item["name"])
+        self.points = item["points"]
+        self.speed = item["speed"]
+
+    def update(self):
+        self.y += self.speed
+        screen.blit(self.image, (self.x, self.y))
+
 def main():
 	#starting code
 	pygame.init()
 	background_color = (random.randint(50, 255), random.randint(50, 255), random.randint(50, 255))
 	points = 0
 	p = Player()
+	item = Item()
 	ticker = pygame.time.Clock()
 	menu = True
 	
@@ -75,5 +92,6 @@ def main():
 		else:
 		    mouse, garbage = pygame.mouse.get_pos()
 		    p.update(mouse)
+		    item.update()
 
 		pygame.display.flip()
