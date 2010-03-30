@@ -1,7 +1,7 @@
-Your Game Title
+Maande
 ===============
 
-Entry in PyWeek #4  <http://www.pyweek.org/4/>
+Entry in PyWeek #10  <http://www.pyweek.org/10/>
 Team: YOUR TEAM NAME (leave the "Team: bit")
 Members: YOUR TEAM MEMBERS (leave the "Members: bit")
 
