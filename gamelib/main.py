@@ -58,14 +58,17 @@ class Item:
         self.speed = item["speed"]
         self.catched = False
 
-    def update(self, points, player):
+    def update(self, player):
         self.y += self.speed
+        
         if (self.x < player.basket_x + 40) and (self.x > player.basket_x - 22) and (self.y < player.basket_y) and (self.y > player.basket_y - 15) and self.catched == False:
         	self.catched = 1
-        	points += self.points
-        	print "Points: %s \n" %points
+        	print "Points: %s \n" % self.points
+        	return self.points
+        
         if self.catched == False:
         	screen.blit(self.image, (self.x, self.y))
+        return 0
 
 def main():
 	#starting code
@@ -73,9 +76,11 @@ def main():
 	background_color = (random.randint(50, 255), random.randint(50, 255), random.randint(50, 255))
 	points = 0
 	p = Player()
-	item = Item()
+	items = []
+	items.append(Item())
 	ticker = pygame.time.Clock()
 	menu = True
+	pygame.time.set_timer(pygame.USEREVENT+1, 5000)
 	
 	while True:
 		ticker.tick(40)
@@ -97,7 +102,18 @@ def main():
 		    menu = True
 
 		else:
-		    item.update(points, p)
+		    # Display the points counter
+		    font = pygame.font.Font(None, 30)
+		    p_counter = font.render("Points: %d" % points, 0, (255, 255, 255))
+		    screen.blit(p_counter, (100, 100))
+
+		    if event.type == pygame.USEREVENT+1:
+		        items.append(Item())
+		    for item in items:
+		        won = item.update(p)
+		        points += won
+		        if won > 0 or item.y > 650:
+		            items.remove(item)
 		    mouse, garbage = pygame.mouse.get_pos()
 		    p.update(mouse)
 
