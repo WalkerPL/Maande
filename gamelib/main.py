@@ -43,6 +43,7 @@ class Player:
 		pygame.draw.line(screen, (0,0,0), ((self.basket_x + 25), (self.basket_y + 25)), ((self.cart_x + 25), (self.cart_y + 5)), 12)
 		screen.blit(self.cart_image, (self.cart_x, self.cart_y))
 		screen.blit(self.basket_image, (self.basket_x, self.basket_y))
+						
 
 class Item:
 
@@ -55,10 +56,16 @@ class Item:
         self.image = pygame.image.load("./data/items/%s.png" % item["name"])
         self.points = item["points"]
         self.speed = item["speed"]
+        self.catched = False
 
-    def update(self):
+    def update(self, points, player):
         self.y += self.speed
-        screen.blit(self.image, (self.x, self.y))
+        if (self.x < player.basket_x + 40) and (self.x > player.basket_x - 22) and (self.y < player.basket_y) and (self.y > player.basket_y - 15) and self.catched == False:
+        	self.catched = 1
+        	points += self.points
+        	print "Points: %s \n" %points
+        if self.catched == False:
+        	screen.blit(self.image, (self.x, self.y))
 
 def main():
 	#starting code
@@ -90,7 +97,7 @@ def main():
 		    menu = True
 
 		else:
-		    item.update()
+		    item.update(points, p)
 		    mouse, garbage = pygame.mouse.get_pos()
 		    p.update(mouse)
 
