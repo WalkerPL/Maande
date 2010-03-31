@@ -90,8 +90,8 @@ def main():
 		    menu = True
 
 		else:
+		    item.update()
 		    mouse, garbage = pygame.mouse.get_pos()
 		    p.update(mouse)
-		    item.update()
 
 		pygame.display.flip()
