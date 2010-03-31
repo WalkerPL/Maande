@@ -63,7 +63,6 @@ class Item:
         
         if (self.x < player.basket_x + 40) and (self.x > player.basket_x - 22) and (self.y < player.basket_y) and (self.y > player.basket_y - 15) and self.catched == False:
         	self.catched = 1
-        	print "Points: %s \n" % self.points
         	return self.points
         
         if self.catched == False:
@@ -75,12 +74,14 @@ def main():
 	pygame.init()
 	background_color = (random.randint(50, 255), random.randint(50, 255), random.randint(50, 255))
 	points = 0
+	level = 0
+	caught = 0
 	p = Player()
 	items = []
 	items.append(Item())
 	ticker = pygame.time.Clock()
 	menu = True
-	pygame.time.set_timer(pygame.USEREVENT+1, 5000)
+	level_change = 1 #0 - no change in this loop, 1 - level +1, 2 - game over
 	
 	while True:
 		ticker.tick(40)
@@ -102,19 +103,48 @@ def main():
 		    menu = True
 
 		else:
-		    # Display the points counter
-		    font = pygame.font.Font(None, 30)
-		    p_counter = font.render("Points: %d" % points, 0, (255, 255, 255))
-		    screen.blit(p_counter, (100, 100))
-
+		    
+		    if level_change == 1:
+		    	background_color = (random.randint(50, 255), random.randint(50, 255), random.randint(50, 255))
+		    	level += 1
+		    	pygame.time.set_timer(pygame.USEREVENT+1, 5000/level)
+		    	time_passed = 0
+		    	level_change = 0
+		    elif level_change == 2:
+		    	pygame.time.wait(3000)
+		    	return False
 		    if event.type == pygame.USEREVENT+1:
 		        items.append(Item())
 		    for item in items:
 		        won = item.update(p)
 		        points += won
+		        if won > 0:
+		        	caught += 1
 		        if won > 0 or item.y > 650:
 		            items.remove(item)
 		    mouse, garbage = pygame.mouse.get_pos()
 		    p.update(mouse)
+		    time_passed += ticker.get_time()
+		    if time_passed >= 65000 and caught >= 9 * level:
+		    	level_change = 1
+		    	caught = 0
+		    elif time_passed >= 65000 and caught < 9 * level:
+		    	level_change = 2
+		    	pygame.draw.rect(screen, (0,0,0), pygame.Rect(270, 270, 300, 60))
+		    	drawtext("GAME OVER", 283, 280, 64, (255, 0, 0))		    	
+		    
+		    # Draw the upper info
+		    pygame.draw.line(screen, (background_color[0] - 50, background_color[1] - 50, background_color[2] - 50), (0,29), (800,29), 58)
+		    pygame.draw.line(screen, (155, 155, 255), (265,0), (265, 58), 1)
+		    pygame.draw.line(screen, (155, 155, 255), (535,0), (535, 58), 1)
+		    pygame.draw.line(screen, (155, 155, 255), (0,0), (800,0), 1)
+		    pygame.draw.line(screen, (155, 155, 255), (0,59), (800,59), 1)
+		    drawtext("Points: %d" % points, 15, 15, 48, (255, 255, 255))
+		    drawtext("Level: %d" % level, 550, 15, 48, (255, 255, 255))
+		    drawtext("ESCAPE to pause / move to the main menu", 280, 10, 18, (255, 255, 255))
+		    drawtext("You caught: %s" % caught, 280, 35, 22, (255, 255, 255))
+		    drawtext("To get through: %s" % (9 * level), 400, 35, 22, (255, 255, 255))
+		    drawtext("%s s" % ((65000 - time_passed)/1000), 720, 15, 48, (255, 255, 255))
+		    drawtext("fps: %.4s" %ticker.get_fps(), 735, 580, 18, (255, 255, 255))
 
 		pygame.display.flip()
