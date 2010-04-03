@@ -13,7 +13,7 @@ from math import fabs
 def drawtext(message, x, y, fontsize, color=(0,0,0)):
 	# draws text on the screen. little wrapper for the font functions of pygame
 	font = pygame.font.Font(None, fontsize)
-	fontsurface = font.render(message, 0, color)
+	fontsurface = font.render(message, 1, color)
 	screen.blit(fontsurface, (x, y))
 
 class Player:
@@ -46,8 +46,14 @@ class Player:
 class Item:
 
     def __init__(self):
-        items_list = ({"name": "obj0", "points": 10, "speed": 2}, \
-                      {"name": "obj1", "points": 10, "speed": 2})
+        items_list = ({"name": "obj0", "points": 4, "speed": 2}, \
+                      {"name": "obj1", "points": 1, "speed": 1}, \
+                      {"name": "obj2", "points": 10, "speed": 4}, \
+                      {"name": "obj3", "points": 10, "speed": 4}, \
+                      {"name": "obj4", "points": 6, "speed": 3}, \
+                      {"name": "obj5", "points": 3, "speed": 2}, \
+                      {"name": "obj6", "points": -20, "speed": 4}, \
+                      {"name": "obj7", "points": 5, "speed": 3})
 
         item = choice(items_list)        
         self.x = randint(20, 780)
@@ -88,8 +94,27 @@ def main():
 		screen.fill(background_color)
 
 		if menu:
-		    drawtext("Do you want to enter the game?", 100, 100, 30, (255, 255, 255))
-		    drawtext("Press ENTER or ESCAPE", 100, 200, 40, (255, 255, 255))
+		    pygame.draw.rect(screen, (background_color[0] - 50, background_color[1] - 50, background_color[2] - 50), pygame.Rect(225, 50, 335, 80))		    
+		    drawtext("MAANDE", 245, 60, 96, (255, 255, 255))
+		    
+		    pygame.draw.rect(screen, (background_color[0] - 40, background_color[1] - 40, background_color[2] - 40), pygame.Rect(50, 170, 390, 300))
+		    drawtext("If you want to play", 90, 180, 48, (255, 255, 255))
+		    drawtext("press ENTER.", 118, 220, 48, (255,255,255))
+		    drawtext("You don't want to?", 90, 300, 48, (255,255,255))
+		    drawtext("then BURN!", 115, 340, 60, (255,0,0))
+		    drawtext("...or simply press ESC.", 70, 400, 48, (255, 255, 255))
+		    
+		    pygame.draw.rect(screen, (background_color[0] - 30, background_color[1] - 30, background_color[2] - 30), pygame.Rect(480, 170, 270, 400))
+		    drawtext("How to play?", 510, 185, 48, (255,255,255))
+		    
+		    pygame.draw.rect(screen, (background_color[0] - 20, background_color[1] - 20, background_color[2] - 20), pygame.Rect(50, 490, 280, 80))
+		    drawtext("CREDITS:", 70, 492, 16, (255,255,255))
+		    drawtext("- Marcin 'Walker' Pospiech - coding", 70, 512, 15, (255,255,255))
+		    drawtext("- Mateusz 'mmkay' Kulewicz - coding, art, music", 70, 532, 15, (255,255,255))
+		    drawtext("- Monika Maciejewska - art", 70, 552, 15, (255,255,255))
+		    
+		    ticker.tick(5) #we don't need 35 fps in menu
+		    
 
 		else:
 		    
@@ -115,10 +140,10 @@ def main():
 		    p.update(mouse)
 		        
 		    time_passed += ticker.get_time()
-		    if time_passed >= 65000 and caught >= 9 * level:
+		    if time_passed >= 65000 and caught >= 8 * level:
 		        level_change = 1
 		        caught = 0
-		    elif time_passed >= 65000 and caught < 9 * level:
+		    elif time_passed >= 65000 and caught < 8 * level:
 		        level_change = 2
 		        pygame.draw.rect(screen, (0,0,0), pygame.Rect(270, 270, 300, 60))
 		        drawtext("GAME OVER", 283, 280, 64, (255, 0, 0))		    	
@@ -133,9 +158,11 @@ def main():
 		    drawtext("Level: %d" % level, 550, 15, 48, (255, 255, 255))
 		    drawtext("ESCAPE to pause / move to the main menu", 280, 10, 18, (255, 255, 255))
 		    drawtext("You caught: %s" % caught, 280, 35, 22, (255, 255, 255))
-		    drawtext("To get through: %s" % (9 * level), 400, 35, 22, (255, 255, 255))
+		    drawtext("To get through: %s" % (8 * level), 400, 35, 22, (255, 255, 255))
 		    drawtext("%s s" % ((65000 - time_passed)/1000), 720, 15, 48, (255, 255, 255))
 		    drawtext("fps: %.4s" % ticker.get_fps(), 735, 580, 18, (255, 255, 255))
+		    
+		    ticker.tick(35)
 
 		for event in pygame.event.get():
 		    if event.type == pygame.QUIT:
@@ -153,4 +180,3 @@ def main():
 			    items.append(Item())
 
 		pygame.display.flip()
-		ticker.tick(35)
