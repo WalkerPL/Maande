@@ -46,14 +46,14 @@ class Player:
 class Item:
 
     def __init__(self):
-        items_list = ({"name": "obj0", "points": 4, "speed": 2}, \
-                      {"name": "obj1", "points": 1, "speed": 1}, \
-                      {"name": "obj2", "points": 10, "speed": 4}, \
-                      {"name": "obj3", "points": 10, "speed": 4}, \
-                      {"name": "obj4", "points": 6, "speed": 3}, \
-                      {"name": "obj5", "points": 3, "speed": 2}, \
-                      {"name": "obj6", "points": -20, "speed": 4}, \
-                      {"name": "obj7", "points": 5, "speed": 3})
+        items_list = ({"name": "obj0", "points": 20, "speed": 2}, \
+                      {"name": "obj1", "points": 5, "speed": 1}, \
+                      {"name": "obj2", "points": 50, "speed": 4}, \
+                      {"name": "obj3", "points": 50, "speed": 4}, \
+                      {"name": "obj4", "points": 30, "speed": 3}, \
+                      {"name": "obj5", "points": 15, "speed": 2}, \
+                      {"name": "obj6", "points": -100, "speed": 4}, \
+                      {"name": "obj7", "points": 25, "speed": 3})
 
         item = choice(items_list)        
         self.x = randint(20, 780)
@@ -79,13 +79,16 @@ screen = pygame.display.set_mode((800, 600))
 def main():
 	pygame.mixer.pre_init(44100, -16, 2, 2048) # gets rid of delay in hearing sounds
 	pygame.init()
+
 	background_color = (randint(50, 255), randint(50, 255), randint(50, 255))
 	points = level = caught = 0
 	items = []
 	menu = True
 	level_change = 1 #0 - no change in this loop, 1 - level +1, 2 - game over
+
 	pygame.mixer.init()
 	pygame.display.set_caption("Maande")
+	pygame.display.set_icon(pygame.image.load("./data/basket.png").convert_alpha())
 	music = pygame.mixer.Sound("./data/tune.ogg")
 	music.play(-1)
 	pip = pygame.mixer.Sound("./data/pip.ogg")
@@ -106,8 +109,8 @@ def main():
 		    pygame.draw.rect(screen, (background_color[0] - 40, background_color[1] - 40, background_color[2] - 40), pygame.Rect(50, 170, 390, 300))
 		    drawtext("If you want to play", 90, 180, 48, (255, 255, 255))
 		    drawtext("press ENTER.", 118, 220, 48, (255,255,255))
-		    drawtext("You don't want to?", 90, 300, 48, (255,255,255))
-		    drawtext("then BURN!", 115, 340, 60, (255,0,0))
+		    drawtext("Don't want to?", 130, 300, 48, (255,255,255))
+		    drawtext("then BURN!", 125, 340, 60, (255,0,0))
 		    drawtext("...or simply press ESC.", 70, 400, 48, (255, 255, 255))
 		    
 		    pygame.draw.rect(screen, (background_color[0] - 30, background_color[1] - 30, background_color[2] - 30), pygame.Rect(480, 170, 270, 400))
@@ -121,17 +124,17 @@ def main():
 		    drawtext("Some of them are shown below.", 490, 330, 24, (255, 255, 255))
 		    drawtext("Their point values are:", 490, 355, 24, (255, 255, 255))
 		    screen.blit(pygame.image.load("./data/items/obj4.png"), (490, 380))
-		    drawtext("+6 pts", 540, 390, 24, (255, 255, 255))
+		    drawtext("+30 pts", 540, 390, 24, (255, 255, 255))
 		    screen.blit(pygame.image.load("./data/items/obj7.png"), (610, 380))
-		    drawtext("+5 pts", 660, 390, 24, (255, 255, 255))
+		    drawtext("+25 pts", 660, 390, 24, (255, 255, 255))
 		    screen.blit(pygame.image.load("./data/items/obj0.png"), (490, 430))
-		    drawtext("+4 pts", 540, 440, 24, (255, 255, 255))
+		    drawtext("+20 pts", 540, 440, 24, (255, 255, 255))
 		    screen.blit(pygame.image.load("./data/items/obj5.png"), (610, 430))
-		    drawtext("+3 pts", 660, 440, 24, (255, 255, 255))
+		    drawtext("+15 pts", 660, 440, 24, (255, 255, 255))
 		    screen.blit(pygame.image.load("./data/items/obj1.png"), (490, 480))
-		    drawtext("+1 pt", 540, 490, 24, (255, 255, 255))
+		    drawtext("+5 pt", 540, 490, 24, (255, 255, 255))
 		    screen.blit(pygame.image.load("./data/items/obj6.png"), (610, 480))
-		    drawtext("-20 pts", 660, 490, 24, (255, 0, 0))
+		    drawtext("-100 pts", 660, 490, 24, (255, 0, 0))
 		    drawtext("You have to catch enough of them", 490, 530, 22, (255, 255, 255))
 		    drawtext("into the basket to pass the level.", 490, 550, 22, (255, 255, 255))
 		    
@@ -141,7 +144,7 @@ def main():
 		    drawtext("- Mateusz 'mmkay' Kulewicz - coding, art, music", 70, 532, 15, (255,255,255))
 		    drawtext("- Monika Maciejewska - art", 70, 552, 15, (255,255,255))
 		    
-		    ticker.tick(5) #we don't need 35 fps in menu
+		    ticker.tick(5) # we don't need 35 fps in menu
 		    
 
 		else:
