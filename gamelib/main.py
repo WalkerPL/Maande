@@ -77,6 +77,7 @@ class Item:
 screen = pygame.display.set_mode((800, 600))
 
 def main():
+	pygame.mixer.pre_init(44100, -16, 2, 2048) # gets rid of delay in hearing sounds
 	pygame.init()
 	background_color = (randint(50, 255), randint(50, 255), randint(50, 255))
 	points = level = caught = 0
