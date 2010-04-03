@@ -83,6 +83,11 @@ def main():
 	items = []
 	menu = True
 	level_change = 1 #0 - no change in this loop, 1 - level +1, 2 - game over
+	pygame.mixer.init()
+	pygame.display.set_caption("Maande")
+	music = pygame.mixer.Sound("./data/tune.ogg")
+	music.play(-1)
+	pip = pygame.mixer.Sound("./data/pip.ogg")
 	
 	p = Player()
 	items.append(Item())
@@ -131,19 +136,20 @@ def main():
 		    for item in items:
 		        won = item.update(p)
 		        points += won
-		        if won > 0:
+		        if won != 0:
+		            pip.play(0)
 		            caught += 1
-		        if won > 0 or item.y > 650:
+		        if won != 0 or item.y > 650:
 		            items.remove(item)
 
 		    mouse = pygame.mouse.get_pos()[0]
 		    p.update(mouse)
 		        
 		    time_passed += ticker.get_time()
-		    if time_passed >= 65000 and caught >= 8 * level:
+		    if time_passed >= 65000 and caught >= 9 * level:
 		        level_change = 1
 		        caught = 0
-		    elif time_passed >= 65000 and caught < 8 * level:
+		    elif time_passed >= 65000 and caught < 9 * level:
 		        level_change = 2
 		        pygame.draw.rect(screen, (0,0,0), pygame.Rect(270, 270, 300, 60))
 		        drawtext("GAME OVER", 283, 280, 64, (255, 0, 0))		    	
@@ -158,7 +164,7 @@ def main():
 		    drawtext("Level: %d" % level, 550, 15, 48, (255, 255, 255))
 		    drawtext("ESCAPE to pause / move to the main menu", 280, 10, 18, (255, 255, 255))
 		    drawtext("You caught: %s" % caught, 280, 35, 22, (255, 255, 255))
-		    drawtext("To get through: %s" % (8 * level), 400, 35, 22, (255, 255, 255))
+		    drawtext("To get through: %s" % (9 * level), 400, 35, 22, (255, 255, 255))
 		    drawtext("%s s" % ((65000 - time_passed)/1000), 720, 15, 48, (255, 255, 255))
 		    drawtext("fps: %.4s" % ticker.get_fps(), 735, 580, 18, (255, 255, 255))
 		    
