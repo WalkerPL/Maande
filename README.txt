@@ -2,8 +2,8 @@ Maande
 ===============
 
 Entry in PyWeek #10  <http://www.pyweek.org/10/>
-Team: YOUR TEAM NAME (leave the "Team: bit")
-Members: YOUR TEAM MEMBERS (leave the "Members: bit")
+Team: Stupid Weekend Game Coders
+Members: Mateusz "mmkay" Kulewicz, Marcin "Walker" Pośpiech, Monika Maciejewska
 
 
 DEPENDENCIES:
@@ -12,15 +12,13 @@ You might need to install some of these before running the game:
 
   Python:     http://www.python.org/
   PyGame:     http://www.pygame.org/
-  PyOpenGL:   http://pyopengl.sf.net/
-
 
 
 RUNNING THE GAME:
 
-On Windows or Mac OS X, locate the "run_game.pyw" file and double-click it.
+On Windows or Mac OS X, locate the "run_game.py" file and double-click it.
 
-Othewise open a terminal / console and "cd" to the game directory and run:
+Otherwise open a terminal / console and "cd" to the game directory and run:
 
   python run_game.py
 
@@ -28,13 +26,11 @@ Othewise open a terminal / console and "cd" to the game directory and run:
 
 HOW TO PLAY THE GAME:
 
-Move the cursor around the screen with the mouse.
-
-Press the left mouse button to fire the ducks.
+Move the basket around the screen using the mouse.
 
 
 
 LICENSE:
 
-This game skellington is placed in the Public Domain.
+This game Maande is placed in the Public Domain.
 
